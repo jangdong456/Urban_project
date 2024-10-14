@@ -1,6 +1,8 @@
 buildscript {
     ext {
         junitVersion = '5.10.1'
+        lombokVersion = '1.18.30'
+        mybatisSpringVersion = '3.0.3'
     }
 }
 
@@ -31,14 +33,28 @@ repositories {
 }
 
 dependencies {
+    // spring
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // mybatis
+    implementation ("org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisSpringVersion}")
+
+    // mariadb
+    implementation 'org.mariadb.jdbc:mariadb-java-client:3.4.1'
+
+    // lombok
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    testImplementation "org.mybatis.spring.boot:mybatis-spring-boot-starter-test:${mybatisSpringVersion}"
 }
 
 test {
