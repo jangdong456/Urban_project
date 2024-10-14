@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     hikari:
-      jdbc-url: jdbc:mysql://localhost:3306/urban
+      jdbc-url: jdbc:mariadb://localhost:3306/urban
       driver-class-name: org.mariadb.jdbc.Driver
       username: urban
       password: "urban#123"
