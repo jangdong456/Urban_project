@@ -9,7 +9,7 @@
 		<setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
     <typeAliases>
-		<package name="com.enuri.goodsgroup.dto"/>
+		<package name="com.gudee.urban.dto"/>
 	</typeAliases>
      
 	<!--  java.util.Date 변경 -->

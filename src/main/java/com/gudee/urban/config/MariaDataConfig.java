@@ -33,7 +33,7 @@ public class MariaDataConfig {
         var factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(dataSource);
         factoryBean.setConfigLocation(applicationContext.getResource("classpath:mybatis-config.xml"));
-        factoryBean.setMapperLocations(applicationContext.getResources("classpath:query/*.xml"));
+        factoryBean.setMapperLocations(applicationContext.getResources("classpath:query/**/*.xml"));
         factoryBean.setVfs(org.mybatis.spring.boot.autoconfigure.SpringBootVFS.class);
 
         return factoryBean.getObject();
