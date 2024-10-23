@@ -20,7 +20,7 @@
 	<link href="resources/css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 	<meta charset="UTF-8">
-
+	<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 	
 </head>
 <body>
@@ -29,10 +29,14 @@
 		<div class="main">
 			<div th:replace="~{fragments/mainNav :: mainNav}"></div>
 			<div layout:fragment="content"></div>		
-		<!-- 	<div th:replace="fragments/footer :: footer"></div> -->
+		 	<div th:replace="fragments/footer :: footer"></div>
 		</div>
 	</div>
 	<script src="resources/js/app.js"></script>
-	<script src="resources/js/ex.js"></script>
+	
+	<!-- 발급받은 API사용 -->
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ef9b2786a63d49bbbd0849172d82fdf6&libraries=clusterer"></script>
+	<script src="resources/js/map.js"></script>
+
 </body>
 </html>
