@@ -20,7 +20,7 @@
 	<link href="resources/css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 	<meta charset="UTF-8">
-
+	
 	
 </head>
 <body>
@@ -28,6 +28,7 @@
 		<div th:replace="~{fragments/header :: header}"></div>
 		<div class="main">
 			<div th:replace="~{fragments/mainNav :: mainNav}"></div>
+			<div th:replace="~{fragments/mapApi :: mapApi}"></div>
 			<div layout:fragment="content"></div>		
 		<!-- 	<div th:replace="fragments/footer :: footer"></div> -->
 		</div>
