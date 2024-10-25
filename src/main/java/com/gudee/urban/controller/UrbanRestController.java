@@ -20,7 +20,6 @@ public class UrbanRestController {
     private final ObjectMapper objectMapper;
 
     // TODO #1 생성자 주입
-    @Autowired
     public UrbanRestController(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
@@ -60,6 +59,4 @@ public class UrbanRestController {
         // TODO #2 "this" 키워드
         return this.objectMapper.writeValueAsString(resultMap);
     }
-    
-
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
-<!DOCTYPE configuration   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-config.dtd">  
-    
+<!DOCTYPE configuration   PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">  
+    					
 <configuration>
 	<settings>
 		<setting name="cacheEnabled" value="false" />
@@ -9,9 +9,10 @@
 		<setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
     <typeAliases>
-		<package name="com.gudee.urban.dto"/>
-	</typeAliases>
-     
+    	<typeAlias type="com.gudee.urban.map.MapVO" alias="MapVO"/>
+    	<package name="com.gudee.urban.dto"/>
+    </typeAliases>
+
 	<!--  java.util.Date 변경 -->
     <typeHandlers>
 		<typeHandler javaType="java.sql.Timestamp" handler="org.apache.ibatis.type.DateTypeHandler"/>
@@ -19,3 +20,4 @@
 		<typeHandler javaType="java.sql.Date" handler="org.apache.ibatis.type.DateTypeHandler"/>
     </typeHandlers>
 </configuration>
+
