@@ -2,6 +2,7 @@ package com.gudee.urban.map;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,14 +20,14 @@ public class MapController {
 		this.mapService = mapService;
 	}
 	
-	@GetMapping("test")
-	public ModelAndView getList(Model model) throws Exception {
-		var modelAndView = new ModelAndView();
+	@GetMapping("/test")
+	public String getList(Model model) throws Exception {
+		
 		MapVO list = mapService.getList();
+		model.addAttribute("list",list);
 		
-		
-		modelAndView.setViewName("test");
-		modelAndView.addObject(list);
-		return modelAndView;
+//		modelAndView.setViewName("test");
+//		modelAndView.addObject(list);
+		return "test";
 	}
 }
