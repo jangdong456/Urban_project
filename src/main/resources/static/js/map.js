@@ -1,38 +1,62 @@
+$(document).ready(function () {
+    var mapContainer = document.getElementById('map'),
+        mapOption = {
+            center: new kakao.maps.LatLng(37.478568, 126.864732),
+            level: 6
+        };
 
-
-window.onload = function() {
-      
-
-    var map = new kakao.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
-        center : new kakao.maps.LatLng(37.5642135, 127.0016985), // 지도의 중심좌표 
-        level : 10 // 지도의 확대 레벨 
-    });
-    
-    // 마커 클러스터러를 생성합니다 
+    var map = new kakao.maps.Map(mapContainer, mapOption);
     var clusterer = new kakao.maps.MarkerClusterer({
-        map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
-        averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
-        minLevel: 3 // 클러스터 할 최소 지도 레벨 
+        map: map,
+        averageCenter: true,
+        minLevel: 5
     });
- 
-    // 데이터를 가져오기 위해 jQuery를 사용합니다
-    // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
-    let json = `{"positions":[{"lat":37.2794307522912,"lng":127.017639984062},{"lat":37.5591566870621,"lng":126.925365266111},{"lat":35.1385425826116,"lng":129.101478129467}]}`;
-    let json2 = JSON.parse(json);
-    console.log(json2);
 
-    function chicken (data) {
-        var markers = $(data.positions).map(function(i, position) {
-            return new kakao.maps.Marker({
-                position : new kakao.maps.LatLng(position.lat, position.lng)
+    // 아파트 데이터를 가져와서 지도에 표시
+    $.ajax({
+        url: '/apartments/json',
+        method: 'GET',
+        success: function (data) {
+            var markers = [];
+            data.forEach(function (apartment) {
+                if (apartment.ycoordinate && apartment.xcoordinate) {
+                    var marker = new kakao.maps.Marker({
+                        position: new kakao.maps.LatLng(apartment.ycoordinate, apartment.xcoordinate),
+                        title: apartment.apartmentName
+                    });
+
+                    // 마커 클릭 이벤트 등록
+                    kakao.maps.event.addListener(marker, 'click', function () {
+                        // 모달 창에 정보 업데이트
+                        $('#apartmentModalLabel').text(apartment.apartmentName);
+						var detailsHtml = `
+						    <tr><th>년도</th><td>${apartment.year}</td></tr>
+						    <tr><th>거래 금액</th><td>${apartment.dealAmount}</td></tr>
+						    <tr><th>법정동 명</th><td>${apartment.legalDongName}</td></tr>
+						    <tr><th>층수</th><td>${apartment.floor}</td></tr>
+						    <tr><th>번지</th><td>${apartment.lotNumber}</td></tr>
+						    <tr><th>아파트명</th><td>${apartment.apartmentName}</td></tr>
+						    <tr><th>건축년도</th><td>${apartment.buildYear}</td></tr>
+						    <tr><th>기준일</th><td>${apartment.referenceDay}</td></tr>
+						    <tr><th>기준월</th><td>${apartment.referenceMonth}</td></tr>
+						    <tr><th>전용면적</th><td>${apartment.exclusiveArea}㎡</td></tr>
+						`;
+						$('#apartment-details').html(detailsHtml);
+
+
+                        // 모달 창 띄우기
+                        var apartmentModal = new bootstrap.Modal(document.getElementById('apartmentModal'));
+                        apartmentModal.show();
+                    });
+
+                    markers.push(marker);
+                }
             });
-        });
+            clusterer.addMarkers(markers);
+        },
+        error: function () {
+            console.error('아파트 데이터를 불러오는 데 실패했습니다.');
+        }
+    });
+});
 
-        // 클러스터러에 마커들을 추가합니다
-        clusterer.addMarkers(markers);
-    }
-
-    chicken(json2);
-	
-    console.log("클러스터러가 정상적으로 생성되었습니다.");
- };
