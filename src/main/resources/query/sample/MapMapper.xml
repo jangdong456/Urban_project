@@ -5,4 +5,10 @@
 			SELECT * FROM real_estate
  			WHERE id = 1
  		</select>
+ 		
+ 		<insert id="addList" parameterType="MapVO">
+ 			INSERT INTO test_apt
+ 			VALUES(#{id}, #{apt_name}, #{transaction_price}, #{transaction_yy}, #{transaction_mm}, #{transaction_dd}, 
+ 					#{rode_name}, #{street_number}, #{build_yy}, #{floor}, #{area}, #{x_coordinate}, #{y_coordinate})
+ 		</insert>
  	</mapper>

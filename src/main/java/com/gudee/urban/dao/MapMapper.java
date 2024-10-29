@@ -11,5 +11,5 @@ import lombok.RequiredArgsConstructor;
 public interface MapMapper {
 	
 	MapVO getList() throws Exception;
-	
+	void addList(MapVO mapVO) throws Exception;
 }

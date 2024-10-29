@@ -5,10 +5,16 @@ import lombok.Data;
 @Data
 public class MapVO {
 		private Long id;
-		private String building_name;
+		private String apt_name;
+		private int transaction_price;
+		private String transaction_yy;
+		private String transaction_mm;
+		private String transaction_dd;
+		private String rode_name;
+		private String street_number;
+		private String build_yy;
+		private int floor;
 		private Double area;
-		private String lot_number;
-		private Double transaction_price;
-		private String district;
-		private Long floor;
+		private Double x_coordinate;
+		private Double y_coordinate;
 }
