@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,17 @@ public class ApartmentService {
     public List<ApartmentData> findAll() {
         return apartmentDataMapper.findAll();
     }
+    
+    public List<ApartmentData> findFilteredApartments(Integer minPrice, Integer maxPrice, Double minArea, Double maxArea, String sort) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("minPrice", minPrice);
+        params.put("maxPrice", maxPrice);
+        params.put("minArea", minArea);
+        params.put("maxArea", maxArea);
+        params.put("sort", sort);
 
+        return apartmentDataMapper.findFiltered(params);
+    }
 
     public void fetchAndSaveRealEstateData() {
         int pIndex = 1;
