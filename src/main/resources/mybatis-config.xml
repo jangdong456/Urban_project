@@ -9,6 +9,7 @@
 		<setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
     <typeAliases>
+    	<typeAlias type="com.gudee.urban.member.MemberVO" alias="MemberVO"/>
 		<package name="com.gudee.urban.dto"/>
 	</typeAliases>
      
