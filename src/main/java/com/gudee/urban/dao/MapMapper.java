@@ -1,5 +1,7 @@
 package com.gudee.urban.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -10,6 +12,6 @@ import lombok.RequiredArgsConstructor;
 @Mapper
 public interface MapMapper {
 	
-	MapVO getList() throws Exception;
+	List<MapVO> getList() throws Exception;
 	void addList(MapVO mapVO) throws Exception;
 }

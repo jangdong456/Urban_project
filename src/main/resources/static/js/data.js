@@ -1,8 +1,8 @@
-const url = 'https://data.gm.go.kr/openapi/Apttradedelngdetail'
+const url = "https://data.gm.go.kr/openapi/Apttradedelngdetail?KEY=fd588635f78f47f0b90354625482c963&Type=json&pIndex=1&pSize=1"
 
 fetch(url, {
     method : "GET",
-    params = {'KEY=fd588635f78f47f0b90354625482c963'}
+    
 })
 .then(res => res.json())
 .then(res => {

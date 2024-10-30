@@ -27,14 +27,14 @@ public class MapService {
 	private final MapMapper mapMapper;
 	
 	
-	public MapVO getList() throws Exception {
+	public List<MapVO> getList() throws Exception {
 		return mapMapper.getList();
 	}
 	
 	public void getJsonList() throws Exception {
 		RestTemplate restTemplate = new RestTemplate();
 	    // 부동산 실거래 정보 url
-	    String url = "https://data.gm.go.kr/openapi/Apttradedelngdetail?KEY=fd588635f78f47f0b90354625482c963&Type=json&pIndex=1&pSize=1";
+	    String url = "https://data.gm.go.kr/openapi/Apttradedelngdetail?KEY=fd588635f78f47f0b90354625482c963&Type=json&pIndex=1&pSize=5";
 	    
 	    String responseBody = restTemplate.getForObject(url, String.class);
 
@@ -48,6 +48,7 @@ public class MapService {
 	    log.info(rowdata);
 	    
 		MapVO mapvo = new MapVO();
+		String test = "안녕";
 	    
 	    //향상된 for문 ([데이터타입][변수명]:[data])
 	    for(Map<String,Object>realdata : rowdata) {
@@ -63,10 +64,9 @@ public class MapService {
 	    	mapvo.setArea(Double.parseDouble(realdata.get("PRVTUSE_AR").toString()));   	
 	    	
 	    	kakaoAdress(mapvo);
-	    	log.info(mapvo);
+	    	mapMapper.addList(mapvo);
 	    }
 	    
-	    mapMapper.addList(mapvo);
 	    
 	}
 	

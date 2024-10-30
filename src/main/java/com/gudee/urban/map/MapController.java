@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,16 +28,17 @@ public class MapController {
 	
 	private final MapService mapService;
 	
-//	@GetMapping("/test")
-//	public String getList(Model model) throws Exception {
-//		
-//		MapVO list = mapService.getList();
+	@GetMapping("getList")
+	public List<MapVO> getList(Model model) throws Exception {
+		List<MapVO> list = mapService.getList();
+
 //		model.addAttribute("list",list);
-//		
-////		modelAndView.setViewName("test");
-////		modelAndView.addObject(list);
-//		return "test";
-//	}
+		
+		
+//		modelAndView.setViewName("test");
+//		modelAndView.addObject(list);
+		return list;
+	}
 	
 	@GetMapping("/test")
 	public void getJsonList() throws Exception {

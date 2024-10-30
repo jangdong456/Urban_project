@@ -2,13 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">	
  	<mapper namespace="com.gudee.urban.dao.MapMapper">
  		<select id="getList" resultType="MapVO">
-			SELECT * FROM real_estate
- 			WHERE id = 1
+			SELECT * FROM test_apt
  		</select>
  		
  		<insert id="addList" parameterType="MapVO">
  			INSERT INTO test_apt
- 			VALUES(#{id}, #{apt_name}, #{transaction_price}, #{transaction_yy}, #{transaction_mm}, #{transaction_dd}, 
+ 				(id, apt_name, transaction_price, transaction_yy, transaction_mm, transaction_dd, 
+ 					rode_name, street_number, build_yy, floor, area, x_coordinate, y_coordinate)
+ 					
+ 			VALUES
+ 				(#{id}, #{apt_name}, #{transaction_price}, #{transaction_yy}, #{transaction_mm}, #{transaction_dd}, 
  					#{rode_name}, #{street_number}, #{build_yy}, #{floor}, #{area}, #{x_coordinate}, #{y_coordinate})
+ 			ON DUPLICATE KEY UPDATE
+ 			
+ 			id = values(id), apt_name = values(apt_name), transaction_price =  values(transaction_price), 
+ 			transaction_yy =  values(transaction_yy), transaction_mm =  values(transaction_mm),transaction_dd =  values(transaction_dd), 
+ 			rode_name =  values(rode_name), street_number =  values(street_number), build_yy =  values(build_yy), floor =  values(floor), 
+ 			area =  values(area), x_coordinate =  values(x_coordinate), y_coordinate =  values(y_coordinate)
  		</insert>
  	</mapper>
