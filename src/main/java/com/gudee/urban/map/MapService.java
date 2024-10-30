@@ -9,6 +9,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.resource.HttpResource;
@@ -31,10 +32,15 @@ public class MapService {
 		return mapMapper.getList();
 	}
 	
+	@Scheduled(cron = "0  0  0  1  *  *")
+	public void dataRepeat() throws Exception {
+		getJsonList();
+	}
+	
 	public void getJsonList() throws Exception {
 		RestTemplate restTemplate = new RestTemplate();
 	    // 부동산 실거래 정보 url
-	    String url = "https://data.gm.go.kr/openapi/Apttradedelngdetail?KEY=fd588635f78f47f0b90354625482c963&Type=json&pIndex=1&pSize=5";
+	    String url = "https://data.gm.go.kr/openapi/Apttradedelngdetail?KEY=fd588635f78f47f0b90354625482c963&Type=json&pIndex=1&pSize=90";
 	    
 	    String responseBody = restTemplate.getForObject(url, String.class);
 
@@ -48,7 +54,6 @@ public class MapService {
 	    log.info(rowdata);
 	    
 		MapVO mapvo = new MapVO();
-		String test = "안녕";
 	    
 	    //향상된 for문 ([데이터타입][변수명]:[data])
 	    for(Map<String,Object>realdata : rowdata) {
