@@ -1,4 +1,4 @@
-package com.gudee.urban.member;
+package com.gudee.urban.util;
 
 import lombok.Data;
 
