@@ -7,6 +7,6 @@ import com.gudee.urban.member.MemberVO;
 @Mapper
 public interface MemberMapper {
 	
-	MemberVO signUp(MemberVO memberVO) throws Exception; 
+	int signUp(MemberVO memberVO) throws Exception; 
 	MemberVO signIn(MemberVO memberVO) throws Exception; 
 }

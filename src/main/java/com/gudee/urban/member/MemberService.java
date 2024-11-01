@@ -16,8 +16,8 @@ public class MemberService {
 	private String secretKey;
 	private Long expiredMs = 1000 * 60 * 60L;
 	
-	public void signUp(MemberVO memberVO) throws Exception {
-		memberMapper.signUp(memberVO);
+	public int signUp(MemberVO memberVO) throws Exception {
+		return memberMapper.signUp(memberVO);
 	}
 	
 	public MemberVO signIn(MemberVO memberVO) throws Exception {

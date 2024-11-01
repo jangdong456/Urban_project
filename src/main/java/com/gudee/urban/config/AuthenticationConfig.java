@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -23,6 +24,21 @@ public class AuthenticationConfig {
 	
 	@Value("${jwt.secret}")
 	private String secretKey; 
+	
+	@Bean
+	//public 을 선언하면 default로 바꾸라는 메세지 출력
+	WebSecurityCustomizer webSecurityConfig() {
+		//Security에서 무시해야하는 URL 패턴 등록
+		return web -> web
+			   .ignoring()
+			   .requestMatchers("/apartments/**")
+			   .requestMatchers("/imag/**")
+			   .requestMatchers("/fonts/**")
+			   .requestMatchers("/css/**")
+			   .requestMatchers("/js/**")
+			   .requestMatchers("/favicon/**")
+			   .requestMatchers("/resources/**");
+	}
 	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -45,7 +61,7 @@ public class AuthenticationConfig {
 //							.requestMatchers(HttpMethod.POST, "/member/**").authenticated() //member로 들어오는  post메서드 요청은 다 막는다.
 							
 				);
-		httpSecurity.addFilterBefore(new JwtFilter(memberService, secretKey), UsernamePasswordAuthenticationFilter.class);
+//		httpSecurity.addFilterBefore(new JwtFilter(memberService, secretKey), UsernamePasswordAuthenticationFilter.class);
 		
 					
 		

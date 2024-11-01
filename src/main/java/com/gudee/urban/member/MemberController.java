@@ -1,11 +1,14 @@
 package com.gudee.urban.member;
 
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/member/*")
 public class MemberController {
-	
 	
 	private final MemberService memberService;
 	
@@ -44,10 +46,15 @@ public class MemberController {
 	}
 	
 	@PostMapping("signup")
-	public ResponseEntity<String> signUp(MemberVO memberVO) throws Exception {
-//		memberService.signUp(memberVO);
+	public ResponseEntity<Map<String, Object>> signUp(@RequestBody MemberVO memberVO) throws Exception {
+		
+		System.out.println(memberVO.getUsername());
+		System.out.println(memberVO.getPassword());
+//		int success = memberService.signUp(memberVO);
+//		System.out.println("반환값 확인 : " + success);
 		String result = "회원가입성공";
-		return ResponseEntity.ok().body(result);
+		
+		return ResponseEntity.ok().body(Map.of("message", result));
 	}
 	
 	@PostMapping("token")
