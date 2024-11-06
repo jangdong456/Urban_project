@@ -61,7 +61,7 @@ public class AuthenticationConfig {
 //							.requestMatchers(HttpMethod.POST, "/member/**").authenticated() //member로 들어오는  post메서드 요청은 다 막는다.
 							
 				);
-//		httpSecurity.addFilterBefore(new JwtFilter(memberService, secretKey), UsernamePasswordAuthenticationFilter.class);
+		httpSecurity.addFilterBefore(new JwtFilter(memberService, secretKey), UsernamePasswordAuthenticationFilter.class);
 		
 					
 		
