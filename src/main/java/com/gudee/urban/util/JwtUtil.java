@@ -6,11 +6,13 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,26 +21,37 @@ import lombok.extern.slf4j.Slf4j;
 //@RequiredArgsConstructor
 public class JwtUtil {
 		
-
-//(secretKey).build().parseClaimsJws(token).getBody().getExpiration();
-	public static boolean isExpried(String token, String secretKeyArg) throws Exception {
+	@Value("${jwt.secret}")
+	private String secretKey;
+	
+	
+    private  SecretKey getKey() throws Exception {
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+	
+	//토큰 유효성 검증
+	public boolean isExpried(String token) throws Exception {
 		
-		SecretKey secretKey = Keys.hmacShaKeyFor(secretKeyArg.getBytes(StandardCharsets.UTF_8));
-//        Jwts.parserBuilder()
-//                .setSigningKey(secretKey)    // 비밀값으로 복호화
-//                .build()
-//                .parseClaimsJws(token);
-		return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().getExpiration().before(new Date());
+		boolean result = true;
 		
+		try {
+			result = Jwts.parserBuilder()
+				.setSigningKey(getKey())
+				.build()
+				.parseClaimsJws(token)
+				.getBody().getExpiration()
+				.before(new Date());
+		} catch (Exception e) {
+			log.info("토큰유효 메서드 부분 에러 메시지 :" + e);
+		}
+		
+		return result;
 	}
 	
-	public static String JwtCreate(String username, String secretKey, Long expiredMs) throws Exception {
-		
-//		byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-// 		Key key = Keys.hmacShaKeyFor(keyBytes);
-		Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-		
-		
+	//토큰 생성
+	public String JwtCreate(String username, Long expiredMs) throws Exception {
+			
 		Claims claims = Jwts.claims();
 		claims.put("username", username);
 		
@@ -46,9 +59,7 @@ public class JwtUtil {
 				.setClaims(claims)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + expiredMs))
-				.signWith(key) // , SignatureAlgorithm.HS256
+				.signWith(getKey(),SignatureAlgorithm.HS256)
 				.compact();
 	}
-	
-	
 }

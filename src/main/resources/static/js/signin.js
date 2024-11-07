@@ -26,9 +26,8 @@ btn.addEventListener("click", () => {
         return res.json();
     })
     .then(res => {
-        let token = res.token;
-        console.log(res.token);
-        setCookie("token", token);
+        location.href = "http://localhost:8080/"; 
+        
     })
     .catch(error => {
         console.log("에러내용 :" + error);

@@ -1,8 +1,10 @@
 package com.gudee.urban.config;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,6 +18,7 @@ import com.gudee.urban.util.JwtUtil;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,36 +26,64 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
+@Component
 public class JwtFilter extends OncePerRequestFilter {
 			
 	private final MemberService memberService;
-	private final String secretKey;
+	private final JwtUtil jwtUtil;
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 	
-	final String authoriztion = request.getHeader(HttpHeaders.AUTHORIZATION);
-	log.info("authoriztion : {}", authoriztion);
+    // 1. 토큰이 필요하지 않은 API URL에 대해서 배열로 구성한다.
+    List<String> list = Arrays.asList(
+            "/member/signin",
+            "/favicon.ico",
+            "/",
+            "/resources/**",
+            "/apartments/**"
+           
+    );
+   
+   if (list.contains(request.getRequestURI())) {
+	   System.out.println(request.getRequestURI());
+	   System.out.println("확인");
+        filterChain.doFilter(request, response);
+        return;
+    } 
+   	
+   final Cookie[] cookies = request.getCookies();
+   
+   
+   String token = "";
+   
+   if(cookies != null) {
+	   for(Cookie cookie : cookies) {
+		   if("token".equals(cookie.getName())) {
+			   token = cookie.getValue();
+
+		   }
+	   }	   
+   }
+
 	
 	// token 없으면 실행
-	if(authoriztion == null || !authoriztion.startsWith("Bearer ") ) {
-		log.error("authoriztion을 잘못보냈습니다.");;
+	if(token == null) {
+		log.error("token이 없습니다.");;
 		filterChain.doFilter(request, response);
-		
 		return;
 	}
 	
-	//Token 꺼내기
-	String token = authoriztion.split(" ")[1];
 	
 	//Token Expired(유효시간) 되었는지 여부
 	try {
-		if(JwtUtil.isExpried(token, secretKey)) {
+		if(jwtUtil.isExpried(token)) {
 			log.error("Token이 만료 되었습니다.");
 			filterChain.doFilter(request, response);
 			return;
 		}
+		System.out.println("토큰이 유효합니다@@@@@@@@@@@@");
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();

@@ -24,9 +24,15 @@
 			            </a>
 					</li>
 	
-					<li class="sidebar-item">
+					<li class="sidebar-item" th:if="${token == null}">
 						<a class="sidebar-link" th:href="@{/member/signin}">
 			              <i class="align-middle" data-feather="log-in"></i> <span class="align-middle">로그인</span>
+			            </a>
+					</li>
+
+					<li class="sidebar-item" th:if="${token != null}">
+						<a class="sidebar-link" th:href="@{/member/signin}">
+			              <i class="align-middle" data-feather="log-in"></i> <span class="align-middle">로그아웃</span>
 			            </a>
 					</li>
 	
@@ -38,7 +44,9 @@
 	
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="pages-blank.html">
-			              <i class="align-middle" data-feather="book"></i> <span class="align-middle">Blank</span>
+			              <i class="align-middle" data-feather="book"></i> 
+			              <span class="align-middle" th:text="${test}"></span>
+			              <span th:text="${test}"></span>
 			            </a>
 					</li>
 	

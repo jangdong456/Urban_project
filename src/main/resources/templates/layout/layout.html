@@ -22,7 +22,8 @@
 
 <body>
     <div class="wrapper">
-        <div th:replace="~{fragments/header :: header}"></div>
+        <div th:replace="~{fragments/header :: header(test=${test})}"></div>
+        
         <div class="main">
             <div th:replace="~{fragments/mainNav :: mainNav}"></div>
             

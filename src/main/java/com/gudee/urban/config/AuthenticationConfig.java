@@ -21,9 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthenticationConfig {
 	
 	private final MemberService memberService;
-	
-	@Value("${jwt.secret}")
-	private String secretKey; 
+	private final JwtFilter jwtFilter;
 	
 	@Bean
 	//public 을 선언하면 default로 바꾸라는 메세지 출력
@@ -55,13 +53,13 @@ public class AuthenticationConfig {
 					(authorizeRequest) ->
 						authorizeRequest
 							.requestMatchers("/").permitAll()
-							.requestMatchers("/member/signin", "/member/signup", "/member/token").permitAll()
+							.requestMatchers("/member/signin", "/member/signup", "/member/token", "/index").permitAll()
 //							.requestMatchers("/member/review").permitAll()
 							.requestMatchers("/member/review").authenticated()
 //							.requestMatchers(HttpMethod.POST, "/member/**").authenticated() //member로 들어오는  post메서드 요청은 다 막는다.
 							
 				);
-		httpSecurity.addFilterBefore(new JwtFilter(memberService, secretKey), UsernamePasswordAuthenticationFilter.class);
+		httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 		
 					
 		

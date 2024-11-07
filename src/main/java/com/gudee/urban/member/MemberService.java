@@ -14,8 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberService {
 	
 	private final MemberMapper memberMapper;
-	@Value("${jwt.secret}")
-	private String secretKey;
+	private final JwtUtil jwtUtil;
+
 	private Long expiredMs = 1000 * 60 * 60L;
 	
 	public int signUp(MemberVO memberVO) throws Exception {
@@ -30,7 +30,8 @@ public class MemberService {
 			String username = member.getUsername();
 			String password = member.getPassword();
 			String token = token(username,password);
-			log.info("token : {} ",token);
+			
+			
 			
 			return token;
 		}
@@ -40,6 +41,6 @@ public class MemberService {
 	
 	public String token(String username, String password) throws Exception {
 	
-		return JwtUtil.JwtCreate(username, secretKey, expiredMs);
+		return jwtUtil.JwtCreate(username,expiredMs);
 	}
 }
